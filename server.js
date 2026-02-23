@@ -63,12 +63,12 @@ if (!cleanName || !cleanEmail || !cleanUsername || !cleanPassword || !cleanConfi
         });
     }
 
-    if (cleanUsername.length < 4) {
-        return res.status(400).json({
-            success: false,
-            message: "Username must be at least 4 characters ❌"
-        });
-    }
+    if (cleanUsername.includes(" ")) {
+    return res.status(400).json({
+        success: false,
+        message: "Username cannot contain spaces ❌"
+    });
+}
 
     if (cleanPassword.length < 6) {
         return res.status(400).json({

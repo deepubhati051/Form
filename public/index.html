@@ -221,10 +221,6 @@ small{
                     <button type="button" id="showTableBtn"
                     style="width: 50%; padding: 8px; border-radius: 20px;">Show Table</button>
                 </div>
-
-                <div class="arrow-row">
-                    <button type="button" id="nextBtn" class="next-arrow">></button>
-                </div>
             </form>
 
             <!-- ===== PREVIEW MODAL ===== -->
@@ -630,39 +626,6 @@ small{
                 previewModal.style.display = "none";
                 submitBtn.click();
             });
-
-            let nextBtn = document.getElementById("nextBtn");
-
-            nextBtn.addEventListener("click", function(){
-
-// required fields
-                let name = document.getElementById("name").value.trim();
-                let isd = document.getElementById("isd").value.trim();
-                let email = document.getElementById("email").value.trim();
-                let address = document.getElementById("address").value.trim();
-                let pincode = document.getElementById("pincode").value.trim();
-                let city = document.getElementById("city").value.trim();
-                let state = document.getElementById("state").value.trim();
-                let dob = document.getElementById("dob").value.trim();
-                let username = document.getElementById("Username").value.trim();
-                let password = document.getElementById("password").value.trim();
-                let confirmPassword = document.getElementById("confirmPassword").value.trim();
-
-            if(
-                name === "" || isd === "" || email === "" || address === "" ||
-                pincode === "" || city === "" || state === "" || dob === "" ||
-                username === "" || password === "" || confirmPassword === ""
-            ){
-                alert("⚠️ Please fill complete form before going next");
-            return; // stop here
-        }
-
-                if(password !== confirmPassword){
-                alert("❌ Password & Confirm Password do not match");
-            return;
-        }
-            window.location.href = "admin.html";
-        });
 
             const inputs = Array.from(document.querySelectorAll("#regForm input"));
 
