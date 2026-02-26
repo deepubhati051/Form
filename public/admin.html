@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
     body{
         font-family: 'Segoe UI', sans-serif;
@@ -63,14 +64,16 @@
         border: none;
         cursor: pointer;
         font-size: 16px;
-        margin-right: 8px;
-        padding: 4px;
-        transition: transform 0.2s ease;
-    }
+        margin-right: 10px;
+        color: #111;
+        transition: 0.2s ease;
+}
 
     button:hover{
+        color: #2563eb;
         transform: scale(1.2);
-    }
+}
+
 
     input{
         padding: 4px;
@@ -99,6 +102,13 @@
     border-radius:6px;
     border:1px solid #ccc;
     font-size:14px;
+}
+button:last-child{
+    color: #dc2626;
+}
+
+button:last-child:hover{
+    color: #b91c1c;
 }
 </style>
 </head>
@@ -154,12 +164,16 @@ function loadStudents(){
                 <td>${stu.city}</td>
                 <td>${stu.username}</td>
             <td>
-                <button onclick="editRow(this)">✏️</button>
-                <button onclick="deleteStudent(${stu.id})">🗑️</button>
+                <button onclick="editRow(this)">
+            <i class="fa-solid fa-pen"></i>
+        </button>
+
+        <button onclick="deleteStudent(${stu.id})">
+            <i class="fa-solid fa-trash"></i>
+        </button>
             </td>
         </tr>
         `;
-  
             tbody.innerHTML += row;
         });
     })
@@ -205,7 +219,7 @@ function editRow(button){
     cityCell.innerHTML = `<input type="text" value="${cityCell.innerText}">`;
     usernameCell.innerHTML = `<input type="text" value="${usernameCell.innerText}">`;
 
-    button.innerText = "💾";
+    button.innerHTML = '<i class="fa-solid fa-floppy-disk"></i>';
     button.onclick = function(){
         saveRow(this);
     };
@@ -242,7 +256,7 @@ function saveRow(button){
         row.children[3].innerText = city;
         row.children[4].innerText = username;
 
-        button.innerText = "✏️";
+        button.innerHTML = '<i class="fa-solid fa-pen"></i>';
         button.onclick = function(){
             editRow(this);
         };
@@ -267,7 +281,7 @@ function resetRow(row){
 
 
     let button = row.querySelector("button");
-    button.innerText = "✏️";
+   button.innerHTML = '<i class="fa-solid fa-pen"></i>';
     button.onclick = function(){
         editRow(this);
     };

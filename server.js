@@ -4,6 +4,7 @@ const path = require("path");
 const db = require("./db");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const sanitizeHtml = require("sanitize-html");
 
 // JSON data allow karna
 app.use(cors());
@@ -17,6 +18,15 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
+function cleanInput(input) {
+    if (!input) return null;
+
+    return sanitizeHtml(input.trim(), {
+        allowedTags: [],       // koi HTML tag allow nahi
+        allowedAttributes: {}  // koi attribute allow nahi
+    });
+}
 
 // ================= REGISTER API =================
 app.post("/register", async (req, res) => {
@@ -37,16 +47,17 @@ app.post("/register", async (req, res) => {
     } = req.body;
 
 // ===== SANITIZATION =====
-const cleanName = name ? name.trim() : "";
-const cleanEmail = email ? email.trim().toLowerCase() : "";
-const cleanUsername = username ? username.trim() : "";
+const cleanName = cleanInput(name) || "";
+const cleanEmail = cleanInput(email)?.toLowerCase() || "";
+const cleanUsername = cleanInput(username) || "";
+
 const cleanPassword = password ? password.trim() : "";
 const cleanConfirmPassword = confirmPassword ? confirmPassword.trim() : "";
 
-const cleanAddress = address ? address.trim() : null;
-const cleanCity = city ? city.trim() : null;
-const cleanState = state ? state.trim() : null;
-const cleanCountry = country ? country.trim() : null;
+const cleanAddress = cleanInput(address);
+const cleanCity = cleanInput(city);
+const cleanState = cleanInput(state);
+const cleanCountry = cleanInput(country);
 
 // ===== REQUIRED FIELD CHECK =====
 if (!cleanName || !cleanEmail || !cleanUsername || !cleanPassword || !cleanConfirmPassword) {
@@ -143,14 +154,13 @@ if (!cleanName || !cleanEmail || !cleanUsername || !cleanPassword || !cleanConfi
 });
 
 app.put("/student/:id", (req, res) => {
-
+   
     const id = req.params.id;
     const { name, email, city, username } = req.body;
-
-    const cleanName = name ? name.trim() : null;
-    const cleanEmail = email ? email.trim().toLowerCase() : null;
-    const cleanCity = city ? city.trim() : null;
-    const cleanUsername = username ? username.trim() : null;
+    const cleanName = cleanInput(name);
+    const cleanEmail = cleanInput(email)?.toLowerCase();
+    const cleanCity = cleanInput(city);
+    const cleanUsername = cleanInput(username);
 
     const sql = `
     UPDATE students
